@@ -69,7 +69,4 @@ Examples (with proxy):
 - Metadata diff auto-selects word-level diffs for single-line values and line-level diffs for multi-line text, with pretty-printed JSON for objects.
 - ESLint is referenced in scripts but may require local setup to run successfully.
 
-## License
-
-Proprietary or per-repo settings as applicable.
 
