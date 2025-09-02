@@ -82,7 +82,7 @@ function MultiLineDiff({ oldText, newText }) {
             ? 'font-bold text-red-900'
             : ''
           return (
-            <span key={idx} className={`px-0.5 rounded ${cls}`}>{p.value}</span>
+            <span key={idx} className={cls}>{p.value}</span>
           )
         })}
       </>
