@@ -1,0 +1,9 @@
+/* Tailwind v4 minimal import */
+@import "tailwindcss";
+
+/* App-specific utilities */
+.mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+.scroll-thin { scrollbar-width: thin; }
+.scroll-thin::-webkit-scrollbar { height: 6px; width: 6px; }
+.scroll-thin::-webkit-scrollbar-thumb { background: rgb(203 213 225); border-radius: 4px; }
+
