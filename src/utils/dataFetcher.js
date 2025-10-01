@@ -1,6 +1,6 @@
 export const DEFAULT_HOSTNAME = 'pathoplexus.org'
 export const DEFAULT_SEQUENCE_ID = 'PP_00003PJ'
-export const CORS_PROXY = 'https://corsproxy.io/?'
+export const CORS_PROXY = ''
 
 function cleanSequenceFA(text) {
   if (!text) return ''
