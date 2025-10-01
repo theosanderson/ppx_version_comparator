@@ -43,9 +43,7 @@ export default function SequenceInput({ hostname, sequenceId, onHostnameChange, 
             />
           </label>
 
-          <div className="text-xs text-slate-600 bg-slate-50 border border-slate-200 rounded-md p-3">
-            Requests use a CORS proxy. The target server must allow cross-origin requests or responses may be blocked.
-          </div>
+        
         </div>
       )}
     </div>
