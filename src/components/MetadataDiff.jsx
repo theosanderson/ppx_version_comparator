@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useState } from 'react'
 import { computeMetadataDiff, formatValueAsString, isMultiLineString } from '../utils/diffUtils.js'
 import { diffWords, diffLines, diffChars } from 'diff'
 
@@ -24,7 +24,7 @@ function InlineDiff({ oldText, newText }) {
   )
 }
 
-function MultiLineDiff({ oldText, newText }) {
+function MultiLineDiff({ oldText, newText, hideUnchanged }) {
   const pairs = useMemo(() => {
     const parts = diffLines(oldText || '', newText || '')
 
@@ -89,9 +89,14 @@ function MultiLineDiff({ oldText, newText }) {
     )
   }
 
+  const filteredPairs = hideUnchanged ? pairs.filter((pair) => pair.kind !== 'equal') : pairs
+
   const Col = ({ mode }) => (
     <div className="bg-white border border-slate-200 rounded p-2 space-y-1">
-      {pairs.map((pair, i) => {
+      {filteredPairs.length === 0 ? (
+        <div className="text-sm text-slate-400">All unchanged lines hidden.</div>
+      ) : (
+        filteredPairs.map((pair, i) => {
         const rowClass = (() => {
           if (pair.kind === 'equal') return ''
           if (pair.kind === 'added') return mode === 'new' ? 'bg-green-50' : 'bg-slate-50 text-slate-400'
@@ -112,7 +117,8 @@ function MultiLineDiff({ oldText, newText }) {
               : <span>{text}</span>}
           </div>
         )
-      })}
+        })
+      )}
     </div>
   )
 
@@ -126,6 +132,7 @@ function MultiLineDiff({ oldText, newText }) {
 
 export default function MetadataDiff({ metadata1 = {}, metadata2 = {}, version1, version2 }) {
   const fields = useMemo(() => computeMetadataDiff(metadata1, metadata2), [metadata1, metadata2])
+  const [hideUnchangedLines, setHideUnchangedLines] = useState(false)
 
   if (!fields.length) {
     return <div className="text-slate-600">No metadata available to compare.</div>
@@ -138,6 +145,16 @@ export default function MetadataDiff({ metadata1 = {}, metadata2 = {}, version1,
         <div className="px-2 py-1 rounded bg-green-100 text-green-800">New v{version2}</div>
       </div>
 
+      <label className="inline-flex items-center gap-2 text-sm text-slate-600 select-none">
+        <input
+          type="checkbox"
+          className="h-4 w-4 rounded border-slate-300 text-sky-600 focus:ring-sky-500"
+          checked={hideUnchangedLines}
+          onChange={(e) => setHideUnchangedLines(e.target.checked)}
+        />
+        Hide lines with no diff
+      </label>
+
       <div className="space-y-6">
         {fields.map(({ key, v1, v2, same }) => {
           const str1 = formatValueAsString(v1)
@@ -149,7 +166,7 @@ export default function MetadataDiff({ metadata1 = {}, metadata2 = {}, version1,
               {same ? (
                 <div className="text-slate-600 text-sm bg-slate-50 border border-slate-200 rounded p-2">No change</div>
               ) : multiline ? (
-                <MultiLineDiff oldText={str1} newText={str2} />
+                <MultiLineDiff oldText={str1} newText={str2} hideUnchanged={hideUnchangedLines} />
               ) : (
                 <InlineDiff oldText={str1} newText={str2} />
               )}
