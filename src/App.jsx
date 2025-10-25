@@ -6,8 +6,11 @@ import MetadataDiff from './components/MetadataDiff.jsx'
 import { DEFAULT_HOSTNAME, DEFAULT_SEQUENCE_ID, fetchAllVersions } from './utils/dataFetcher.js'
 
 export default function App() {
-  const [hostname, setHostname] = React.useState(DEFAULT_HOSTNAME)
-  const [sequenceId, setSequenceId] = React.useState(DEFAULT_SEQUENCE_ID)
+  const params = React.useMemo(() => new URLSearchParams(window.location.search), [])
+  const initialHostname = params.get('server') || DEFAULT_HOSTNAME
+  const initialSequenceId = params.get('accession') || DEFAULT_SEQUENCE_ID
+  const [hostname, setHostname] = React.useState(initialHostname)
+  const [sequenceId, setSequenceId] = React.useState(initialSequenceId)
   const [versions, setVersions] = React.useState([])
   const [version1, setVersion1] = React.useState(null)
   const [version2, setVersion2] = React.useState(null)

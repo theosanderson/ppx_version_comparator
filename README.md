@@ -51,6 +51,7 @@ Examples (with proxy):
   - Metadata: field-by-field diffs with word/line-aware highlighting
 - Responsive UI, tab navigation, loading and error states
 - Advanced settings to change server hostname (with CORS warning)
+- Server hostname and accession can be pre-populated via `?server=` and `?accession=` query parameters
 
 ## Project Structure
 
